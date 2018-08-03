@@ -8,14 +8,15 @@ const primaryMatrix = [
   [1, 1, 0, 1, 1, 0]
 ];
 
-let str = '';
+let str;
 let areaNumber = 1;
 let newMat = [];
+let zero = [];
 
 primaryMatrix.forEach(item => newMat.push([...item])); // Копируем в новый массив
 
-console.log('Измененная матрица');
-console.log(clusterDomain(newMat));
+console.log(Array.from({ length: 10 }, () => (Math.random() > 0.50 ? 0 : 1)));
+
 
 function clusterDomain(matrix) {
   for (let i = 0; i < matrix.length; i++) {
@@ -31,7 +32,6 @@ function clusterDomain(matrix) {
 }
 
 function checkNeighbors(i, j, matrix) {
-  //   matrix[i][j] = areaNumber;
   if (
     j + 1 < matrix[i].length &&
     matrix[i][j + 1] > 0 &&
