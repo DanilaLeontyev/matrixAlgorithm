@@ -3,6 +3,8 @@ const calcDomain = document.querySelector('#calcDomain')
 const autoMatrix = document.querySelector('#autoMatrix')
 const matrixContainer = document.querySelector('.matrix-container')
 const domainCountOutput = document.querySelector('.domainCount')
+const resultTable = document.querySelector('#result')
+
 
 createMatrix.addEventListener('click', function () {
   const x = document.querySelector('#x').value
@@ -11,16 +13,31 @@ createMatrix.addEventListener('click', function () {
 })
 
 calcDomain.addEventListener('click', function () {
+  const probability = document.querySelector('#probability').value
+  const x = document.querySelector('#x').value
+  const y = document.querySelector('#y').value
+
   clusterDomain(readMatrix())
-  getDomainCount()
+  let domainCount = getDomainCount()
+  domainCountOutput.innerHTML = `Всего доменов: ${domainCount}`
+  insertInResultTable(probability, domainCount, `${x} * ${y}`)
 })
 
 autoMatrix.addEventListener('click', function () {
+  const probability = document.querySelector('#probability').value
   const x = document.querySelector('#x').value
   const y = document.querySelector('#y').value
-  const probability = document.querySelector('#probability').value
   matrixContainer.appendChild(generateMatrix(x, y, probability));
 })
+
+function insertInResultTable(probability, domainCount, matrixSize) {
+  if (resultTable.childNodes.length > 10) {
+    resultTable.removeChild(resultTable.childNodes[2])
+  }
+  let resultRow = document.createElement('tr')
+  resultRow.innerHTML = `<td>${probability}</td><td>${domainCount}</td><td>${matrixSize}</td>`
+  resultTable.appendChild(resultRow)
+}
 
 function readMatrix() {
   let matrixRow = document.querySelectorAll('.matrix-row')
@@ -39,12 +56,13 @@ function generateMatrix(x, y, probability) {
   let row, elem;
   let rowCount = x;
   let colCount = y;
-  let matrix = document.createElement('table')
-  matrix.classList.add('matrix')
 
   if (matrixContainer.hasChildNodes()) {
     matrixContainer.removeChild(matrixContainer.childNodes[0])
   }
+
+  let matrix = document.createElement('table')
+  matrix.classList.add('matrix')
 
   for (rowCount; rowCount > 0; rowCount--) {
     row = document.createElement('tr')
@@ -88,7 +106,7 @@ function getDomainCount() {
       }
     })
   })
-  domainCountOutput.innerHTML = `Всего доменов: ${domainCount}`
+  return domainCount
 }
 
 function clusterDomain(matrix) {
