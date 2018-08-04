@@ -12,11 +12,18 @@ let str;
 let areaNumber = 1;
 let newMat = [];
 let zero = [];
+const createMatrix = document.querySelector('#createMatrix')
+
+createMatrix.addEventListener('click', function () {
+  const x = document.querySelector('#x')
+  const y = document.querySelector('#y')
+})
+
+
 
 primaryMatrix.forEach(item => newMat.push([...item])); // Копируем в новый массив
 
-console.log(Array.from({ length: 10 }, () => (Math.random() > 0.50 ? 0 : 1)));
-
+Array.from({ length: 10 }, () => (Math.random() > 0.50 ? 0 : 1));
 
 function clusterDomain(matrix) {
   for (let i = 0; i < matrix.length; i++) {
