@@ -106,11 +106,20 @@ function getDomainCount() {
       }
     })
   })
-  return domainCount
+  return domainCount === 0 ? 0 : domainCount - 1;
 }
 
 function clusterDomain(matrix) {
   let areaNumber = 2;
+
+  matrix.forEach(function (row) {
+    row.forEach(function (elem) {
+      if (elem.dataset.domain !== '0' || elem.dataset.domain !== '1') {
+        elem.dataset.domain = elem.textContent
+      }
+    })
+  })
+
   domainCount = 0;
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix[i].length; j++) {
