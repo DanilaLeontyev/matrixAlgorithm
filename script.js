@@ -1,41 +1,44 @@
-const primaryMatrix = [
-  [0, 1, 0, 0, 1, 0],
-  [0, 0, 1, 0, 0, 0],
-  [1, 0, 1, 0, 1, 0],
-  [1, 0, 0, 0, 1, 0],
-  [1, 0, 1, 0, 1, 0],
-  [1, 1, 0, 0, 1, 0],
-  [1, 1, 0, 1, 1, 0]
-];
-
-let str;
-let areaNumber = 1;
-let newMat = [];
-let zero = [];
+let areaNumber = 2;
 const createMatrix = document.querySelector('#createMatrix')
+const calcDomain = document.querySelector('#calcDomain')
 
 createMatrix.addEventListener('click', function () {
   const x = document.querySelector('#x').value
   const y = document.querySelector('#y').value
-  let matrix = document.querySelector('.matrix')
-  matrix.appendChild(generateMatrix(x, y));
+  let matrixContainer = document.querySelector('.matrix-container')
+  matrixContainer.appendChild(generateMatrix(x, y));
 })
 
+calcDomain.addEventListener('click', function () {
+  let matrixDomain = clusterDomain(readMatrix())
+  console.log(matrixDomain)
+})
 
-
-primaryMatrix.forEach(item => newMat.push([...item])); // Копируем в новый массив
+function readMatrix() {
+  let matrixRow = document.querySelectorAll('.matrix-row')
+  let matrix = [];
+  matrixRow.forEach(function (row) {
+    let matrixRow = []
+    row.childNodes.forEach(function (elem) {
+      matrixRow.push(+elem.textContent)
+    })
+    matrix.push(matrixRow)
+  })
+  return matrix;
+}
 
 Array.from({ length: 10 }, () => (Math.random() > 0.50 ? 0 : 1));
 
-
 function generateMatrix(x, y) {
-  let matrix;
   let row, elem;
   let rowCount = x;
   let colCount = y;
-  matrix = document.createElement('table')
+  let matrix = document.createElement('table')
+  matrix.classList.add('matrix')
+
   for (rowCount; rowCount > 0; rowCount--) {
     row = document.createElement('tr')
+    row.classList.add('matrix-row')
     for (colCount; colCount > 0; colCount--) {
       elem = document.createElement('td')
       elem.textContent = '0'
@@ -47,7 +50,6 @@ function generateMatrix(x, y) {
   }
   return matrix;
 }
-
 
 function changeValue() {
   if (this.textContent === '0') {
@@ -66,6 +68,7 @@ function clusterDomain(matrix) {
       }
     }
   }
+  areaNumber = 2;
   return matrix;
 }
 
