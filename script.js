@@ -1,6 +1,7 @@
 let areaNumber = 2;
 const createMatrix = document.querySelector('#createMatrix')
 const calcDomain = document.querySelector('#calcDomain')
+const autoMatrix = document.querySelector('#autoMatrix')
 
 createMatrix.addEventListener('click', function () {
   const x = document.querySelector('#x').value
@@ -10,8 +11,15 @@ createMatrix.addEventListener('click', function () {
 })
 
 calcDomain.addEventListener('click', function () {
-  let matrixDomain = clusterDomain(readMatrix())
-  console.log(matrixDomain)
+  clusterDomain(readMatrix())
+})
+
+autoMatrix.addEventListener('click', function () {
+  const x = document.querySelector('#x').value
+  const y = document.querySelector('#y').value
+  const probability = document.querySelector('#probability').value
+  let matrixContainer = document.querySelector('.matrix-container')
+  matrixContainer.appendChild(generateMatrix(x, y, probability));
 })
 
 function readMatrix() {
@@ -20,16 +28,14 @@ function readMatrix() {
   matrixRow.forEach(function (row) {
     let matrixRow = []
     row.childNodes.forEach(function (elem) {
-      matrixRow.push(+elem.textContent)
+      matrixRow.push(elem)
     })
     matrix.push(matrixRow)
   })
   return matrix;
 }
 
-Array.from({ length: 10 }, () => (Math.random() > 0.50 ? 0 : 1));
-
-function generateMatrix(x, y) {
+function generateMatrix(x, y, probability) {
   let row, elem;
   let rowCount = x;
   let colCount = y;
@@ -41,7 +47,13 @@ function generateMatrix(x, y) {
     row.classList.add('matrix-row')
     for (colCount; colCount > 0; colCount--) {
       elem = document.createElement('td')
-      elem.textContent = '0'
+      if (probability) {
+        elem.textContent = Math.random() > probability ? 0 : 1
+        elem.dataset.domain = elem.textContent
+      } else {
+        elem.textContent = '0'
+        elem.dataset.domain = '0'
+      }
       elem.addEventListener('click', changeValue)
       row.appendChild(elem)
     }
@@ -61,9 +73,11 @@ function changeValue() {
 function clusterDomain(matrix) {
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix[i].length; j++) {
-      if (matrix[i][j] === 1) {
-        matrix[i][j] = areaNumber;
-        checkNeighbors(i, j, matrix);
+      if (matrix[i][j].dataset.domain === '1') {
+        let color = getRandomColor();
+        matrix[i][j].dataset.domain = areaNumber;
+        matrix[i][j].style.backgroundColor = color;
+        checkNeighbors(i, j, matrix, color);
         areaNumber++;
       }
     }
@@ -72,32 +86,45 @@ function clusterDomain(matrix) {
   return matrix;
 }
 
-function checkNeighbors(i, j, matrix) {
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+function checkNeighbors(i, j, matrix, color) {
   if (
     j + 1 < matrix[i].length &&
-    matrix[i][j + 1] > 0 &&
-    matrix[i][j + 1] !== areaNumber
+    matrix[i][j + 1].dataset.domain === '1' &&
+    matrix[i][j + 1].dataset.domain !== areaNumber
   ) {
-    matrix[i][j + 1] = areaNumber;
-    checkNeighbors(i, j + 1, matrix);
+    matrix[i][j + 1].dataset.domain = areaNumber;
+    matrix[i][j + 1].style.backgroundColor = color;
+    checkNeighbors(i, j + 1, matrix, color);
   }
 
-  if (j - 1 >= 0 && matrix[i][j - 1] > 0 && matrix[i][j - 1] !== areaNumber) {
-    matrix[i][j - 1] = areaNumber;
-    checkNeighbors(i, j - 1, matrix);
+  if (j - 1 >= 0 && matrix[i][j - 1].dataset.domain === '1' && matrix[i][j - 1].dataset.domain !== areaNumber) {
+    matrix[i][j - 1].dataset.domain = areaNumber;
+    matrix[i][j - 1].style.backgroundColor = color;
+    checkNeighbors(i, j - 1, matrix, color);
   }
 
   if (
     i + 1 < matrix.length &&
-    matrix[i + 1][j] > 0 &&
-    matrix[i + 1][j] !== areaNumber
+    matrix[i + 1][j].dataset.domain === '1' &&
+    matrix[i + 1][j].dataset.domain !== areaNumber
   ) {
-    matrix[i + 1][j] = areaNumber;
-    checkNeighbors(i + 1, j, matrix);
+    matrix[i + 1][j].dataset.domain = areaNumber;
+    matrix[i + 1][j].style.backgroundColor = color;
+    checkNeighbors(i + 1, j, matrix, color);
   }
 
-  if (i - 1 >= 0 && matrix[i - 1][j] > 0 && matrix[i - 1][j] !== areaNumber) {
-    matrix[i - 1][j] = areaNumber;
-    checkNeighbors(i - 1, j, matrix);
+  if (i - 1 >= 0 && matrix[i - 1][j].dataset.domain === '1' && matrix[i - 1][j].dataset.domain !== areaNumber) {
+    matrix[i - 1][j].dataset.domain = areaNumber;
+    matrix[i - 1][j].style.backgroundColor = color;
+    checkNeighbors(i - 1, j, matrix, color);
   }
 }
