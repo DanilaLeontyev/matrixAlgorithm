@@ -5,11 +5,7 @@ const matrixContainer = document.querySelector('.matrix-container')
 const domainCountOutput = document.querySelector('.domainCount')
 const resultTable = document.querySelector('#result')
 
-function checkMatrix() {
-  if (matrixContainer.hasChildNodes()) {
-    matrixContainer.removeChild(matrixContainer.childNodes[0])
-  }
-}
+
 
 createMatrix.addEventListener('click', function () {
   const x = document.querySelector('#x').value
@@ -21,7 +17,6 @@ calcDomain.addEventListener('click', function () {
   const probability = document.querySelector('#probability').value
   const x = document.querySelector('#x').value
   const y = document.querySelector('#y').value
-
   clusterDomain(readMatrix())
   let domainCount = getDomainCount()
   domainCountOutput.innerHTML = `Всего доменов: ${domainCount}`
@@ -32,6 +27,8 @@ autoMatrix.addEventListener('click', function () {
   const probability = document.querySelector('#probability').value
   const x = document.querySelector('#x').value
   const y = document.querySelector('#y').value
+  checkMatrix(x, y, probability)
+
   matrixContainer.appendChild(generateMatrix(x, y, probability));
   clusterDomain(readMatrix())
   let domainCount = getDomainCount()
@@ -39,6 +36,31 @@ autoMatrix.addEventListener('click', function () {
   insertInResultTable(probability, domainCount, `${x} * ${y}`)
 })
 
+function checkSettings(x, y, probability) {
+  let checked = true;
+
+  if (x > 40 || x <= 0) {
+    alert('Строк не должно быть больше 40 и меньше 0')
+    checked = false
+  }
+
+  if (y > 40 || y <= 0) {
+    alert('Столбцов не должно быть больше 40 и меньше 0')
+    checked = false
+  }
+  if (probability > 0.99 || probability < 0.01) {
+    alert('Вероятность появления единицы должны быть в интервале от 0,01 до 0,99')
+    checked = false
+  }
+
+  return checked;
+}
+
+function checkMatrix() {
+  if (matrixContainer.hasChildNodes()) {
+    matrixContainer.removeChild(matrixContainer.childNodes[0])
+  }
+}
 
 function insertInResultTable(probability, domainCount, matrixSize) {
   if (resultTable.childNodes.length > 10) {
@@ -69,6 +91,10 @@ function generateMatrix(x, y, probability) {
 
   if (matrixContainer.hasChildNodes()) {
     matrixContainer.removeChild(matrixContainer.childNodes[0])
+  }
+
+  if (!checkSettings(x, y, probability)) {
+    return;
   }
 
   let matrix = document.createElement('table')
