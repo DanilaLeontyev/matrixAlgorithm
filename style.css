@@ -1,0 +1,53 @@
+
+.info {
+    display: flex;
+    border-radius: 20px;
+    background-color: #F7F7F7;
+    padding: 15px 20px;
+    margin-right: 20px;
+}
+.settings {
+    min-width: 40%;
+}
+
+#result {
+    border-spacing: 2px;
+}
+
+#result td {
+    padding: 0;
+    margin: 0;
+    border: 2px solid #000;
+    text-align: center;
+}
+
+.settings-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.settings-item > input {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.buttons > button {
+    background-color: #F7F7F7;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    height: 35px;
+    padding: 5px 10px;
+}
+.buttons > button:hover {
+    background-color: #FFD93E;
+}

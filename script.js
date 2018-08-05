@@ -5,6 +5,11 @@ const matrixContainer = document.querySelector('.matrix-container')
 const domainCountOutput = document.querySelector('.domainCount')
 const resultTable = document.querySelector('#result')
 
+function checkMatrix() {
+  if (matrixContainer.hasChildNodes()) {
+    matrixContainer.removeChild(matrixContainer.childNodes[0])
+  }
+}
 
 createMatrix.addEventListener('click', function () {
   const x = document.querySelector('#x').value
@@ -28,7 +33,12 @@ autoMatrix.addEventListener('click', function () {
   const x = document.querySelector('#x').value
   const y = document.querySelector('#y').value
   matrixContainer.appendChild(generateMatrix(x, y, probability));
+  clusterDomain(readMatrix())
+  let domainCount = getDomainCount()
+  domainCountOutput.innerHTML = `Всего доменов: ${domainCount}`
+  insertInResultTable(probability, domainCount, `${x} * ${y}`)
 })
+
 
 function insertInResultTable(probability, domainCount, matrixSize) {
   if (resultTable.childNodes.length > 10) {
