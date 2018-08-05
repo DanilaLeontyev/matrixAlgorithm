@@ -12,26 +12,22 @@
 <body>
     <h1>Визуализация поиска кластеров в матрице</h1>
 
-    <div class="domainCount">
-        Всего доменов: 0
-    </div>
-
     <section class="info">
         <section class="settings">
             <div class="settings-item">
                 <label for="x">Введите количество строк</label>
-                <input onchange="checkMatrix()" type="number" value="10" id="x" name="x" placeholder="Min: 1, max: 40" min="1"
-                    max="40" step="1" />
+                <input onchange="checkMatrix()" type="number" value="10" id="x" name="x" placeholder="Min: 1, max: 40"
+                    min="1" max="40" step="1" />
             </div>
             <div class="settings-item">
                 <label for="y">Введите количество столбцов</label>
-                <input onchange="checkMatrix()" type="number" value="10" id="y" name="y" placeholder="Min: 1, max: 40" min="1"
-                    max="40" step="1" />
+                <input onchange="checkMatrix()" type="number" value="10" id="y" name="y" placeholder="Min: 1, max: 40"
+                    min="1" max="40" step="1" />
             </div>
             <div class="settings-item">
                 <label for="probability">Введите вероятность появления единицы</label>
-                <input onchange="checkMatrix()" type="number" value="0.5" id="probability" name="probability" min="0.01" max="0.99"
-                    step="0.01">
+                <input onchange="checkMatrix()" type="number" value="0.5" id="probability" name="probability"
+                    min="0.01" max="0.99" step="0.01">
             </div>
         </section>
 
@@ -51,6 +47,9 @@
         <button id="calcDomain">Посчитать домены</button>
         <button id="autoMatrix">Автозаполнение</button>
     </section>
+    <div class="domainCount">
+        Всего доменов: 0
+    </div>
     <div class="matrix-container"></div>
     <script src="script.js"></script>
 </body>
