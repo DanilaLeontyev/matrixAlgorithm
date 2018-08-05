@@ -1,3 +1,8 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 .info {
     display: flex;
@@ -50,4 +55,16 @@
 }
 .buttons > button:hover {
     background-color: #FFD93E;
+}
+
+
+.matrix-container {
+    margin-top: 20px;
+}
+
+.matrix-container td {
+    text-align: center;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
 }
